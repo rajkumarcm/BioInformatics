@@ -22,7 +22,11 @@ for i = 1:length(deg)
     n = sum(degree_vec==deg(i));
     deg_vec(i) = n/9;
 end
- bar(deg_vec,'b');
+% figure
+% bar(deg_vec,'b');
+% title('Degree Distribution');
+% xlabel('Degree k');
+% ylabel('Percentage of nodes with degree k');
 
 % Avergage clustering coefficient and its spectrum
 cl_c = zeros(1,9);
@@ -32,22 +36,26 @@ for i = 1:9
     n = length(nodes);
     max_edges = factorial(n)/(factorial(2)*factorial(n-2));
     m = get_edges(adj_mat,nodes);
-    % Since undirected, m = 2xm
     cl_c(i) = (m)/max_edges;
 end
 avg_clcoeff = mean(cl_c);
-figure
+
 
 % plot cl_c
 cl_dis = zeros(1,length(deg));
 for i = 1:length(deg)
     node_indices = find(degree_vec==deg(i));
-    n = length(nodes);
+%     n = length(nodes);
+    n = length(node_indices);
     cl_dis(i) = sum(cl_c(node_indices))/n;
 end
-plot(deg,cl_dis,'o- b','LineWidth',2,'MarkerSize',10)
+% figure
+% plot(deg,cl_dis,'.b','LineWidth',2,'MarkerSize',25)
+% title('Clustering coefficient spectrum');
+% xlabel('Degree k');
+% ylabel('Clustering coefficient average over nodes of degree k');
 
-dis_mat = zeros(9,9);
+dist_mat = zeros(9,9);
 dist_mat(1,2) = 1;
 dist_mat(1,3) = 1;
 dist_mat(1,4) = 2;
@@ -107,13 +115,5 @@ end
 figure
 title('Shortest distance spectrum');
 bar(u_dist,nodes_dist,'r')
-
-% Betweenness centrality
-centrality = zeros(1,9);
-for i = 1:9
-    for j = 1:9
-        if i ~= j && j >= i
-            
-        end
-    end
-end
+xlabel('Distance d');
+ylabel('Percentage of number of over nodes');
